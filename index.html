@@ -4,15 +4,13 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
    <title>Vote Calculator</title>
-
    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
 
    <style>
-      /* =========================
-         RESET
-      ========================= */
+      /*======================================================| 
+      =====| RESET
+      =======================================================*/
       * {
          margin: 0;
          padding: 0;
@@ -30,9 +28,9 @@
          padding: 20px;
       }
 
-      /* =========================
-         APP
-      ========================= */
+      /*======================================================| 
+      =====| APP
+      =======================================================*/
       .app {
          width: 100%;
          max-width: 800px;
@@ -42,9 +40,9 @@
          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       }
 
-      /* =========================
-         TITLE
-      ========================= */
+      /*======================================================| 
+      =====| TITLE
+      =======================================================*/
       .title {
          text-align: center;
          margin-bottom: 30px;
@@ -53,9 +51,9 @@
          letter-spacing: 0.5px;
       }
 
-      /* =========================
-         FORM
-      ========================= */
+      /*======================================================| 
+      =====| FORM
+      =======================================================*/
       .field {
          margin-bottom: 16px;
       }
@@ -88,9 +86,9 @@
          color: #6b7280;
       }
 
-      /* =========================
-         BUTTONS
-      ========================= */
+      /*======================================================| 
+      =====| BUTTONS
+      =======================================================*/
       .btn-group {
          display: flex;
          gap: 10px;
@@ -132,9 +130,9 @@
          background: #4f46e5;
       }
 
-      /* =========================
-         RESULT
-      ========================= */
+      /*======================================================| 
+      =====| RESULT
+      =======================================================*/
       .result {
          margin-top: 20px;
          padding: 18px;
@@ -152,9 +150,9 @@
          font-size: 14px;
       }
 
-      /* =========================
-         RESPONSIVE
-      ========================= */
+      /*======================================================| 
+      =====| RESPONSIVE
+      =======================================================*/
       @media (max-width: 767px) {
 
          .app {
@@ -177,81 +175,46 @@
 </head>
 
 <body>
-
+   <!-- |================================================| -->
+   <!-- |=======|| App Start ||====================| -->
    <div class="app">
-
       <!-- Title -->
       <div class="title">
          Deep Work Vote Calculator 🔥
       </div>
-
       <!-- Session Input -->
       <div class="field">
          <label for="session">
             Time Session
          </label>
-
-         <input
-            type="text"
-            id="session"
-            placeholder="11.23pm:02.14am"
-         >
+         <input type="text" id="session" placeholder="11.23pm:02.14am">
       </div>
-
       <!-- Buttons -->
       <div class="btn-group">
-
          <!-- Reset -->
-         <button
-            type="button"
-            class="btn btn--reset"
-            id="reset"
-            aria-label="Reset Calculator"
-         >
-            <svg
-               xmlns="http://www.w3.org/2000/svg"
-               width="20"
-               height="20"
-               viewBox="0 0 24 24"
-               fill="none"
-               stroke="currentColor"
-               stroke-width="2"
-               stroke-linecap="round"
-               stroke-linejoin="round"
-            >
+         <button type="button" class="btn btn--reset" id="reset" aria-label="Reset Calculator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
                <path d="M21 3v5h-5"></path>
                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
                <path d="M8 16H3v5"></path>
             </svg>
          </button>
-
          <!-- Calculate -->
-         <button
-            type="button"
-            class="btn btn--primary"
-            id="calculate"
-         >
+         <button type="button" class="btn btn--primary" id="calculate">
             Calculate
          </button>
-
       </div>
-
       <!-- Result -->
-      <div
-         class="result"
-         id="result"
-      >
+      <div class="result" id="result">
          Vote: 0 + Minute: 0
       </div>
-
       <!-- Error -->
-      <div
-         class="error"
-         id="error"
-      ></div>
-
+      <div class="error" id="error"></div>
    </div>
+   <!-- |=======|| App End ||====================| -->
+   <!-- |================================================| -->
 
    <script>
       /**
@@ -261,21 +224,14 @@
        * 02.14am
        */
       function parseTime(value) {
-
          const regex = /^(\d{1,2})\.(\d{2})(am|pm)$/i;
-
          const match = value.match(regex);
-
          if (!match) {
             return null;
          }
-
          let hour = parseInt(match[1], 10);
-
          const minute = parseInt(match[2], 10);
-
          const meridiem = match[3].toLowerCase();
-
          if (
             isNaN(hour) ||
             isNaN(minute) ||
@@ -286,18 +242,15 @@
          ) {
             return null;
          }
-
          /**
           * Convert to 24-hour format
           */
          if (meridiem === 'pm' && hour !== 12) {
             hour += 12;
          }
-
          if (meridiem === 'am' && hour === 12) {
             hour = 0;
          }
-
          return (hour * 60) + minute;
       }
 
@@ -307,57 +260,39 @@
       document
          .getElementById('calculate')
          .addEventListener('click', function () {
-
             const sessionVal = document
                .getElementById('session')
                .value
                .trim();
-
             const resultEl = document.getElementById('result');
-
             const errorEl = document.getElementById('error');
-
             errorEl.textContent = '';
-
             /**
              * Example:
              * 11.23pm:02.14am
              */
             const parts = sessionVal.split(':');
-
             if (parts.length !== 2) {
-
                errorEl.textContent =
                   'Use format: 11.23pm:02.14am';
-
                return;
             }
-
             const start = parseTime(parts[0].trim());
-
             const end = parseTime(parts[1].trim());
-
             if (start === null || end === null) {
-
                errorEl.textContent =
                   'Invalid time format';
-
                return;
             }
-
             let diff = end - start;
-
             /**
              * Handle next day
              */
             if (diff < 0) {
                diff += 1440;
             }
-
             const votes = Math.floor(diff / 15);
-
             const remaining = diff % 15;
-
             resultEl.textContent =
                `Vote: ${votes} + Minute: ${remaining}`;
          });
@@ -368,31 +303,24 @@
       document
          .getElementById('reset')
          .addEventListener('click', function () {
-
             document.getElementById('session').value = '';
-
             document.getElementById('result').textContent =
                'Vote: 0 + Minute: 0';
-
             document.getElementById('error').textContent = '';
          });
-
       /**
        * Press Enter to Calculate
        */
       document
          .getElementById('session')
          .addEventListener('keydown', function (event) {
-
             if (event.key === 'Enter') {
-
                document
                   .getElementById('calculate')
                   .click();
             }
          });
    </script>
-
 </body>
 
 </html>
