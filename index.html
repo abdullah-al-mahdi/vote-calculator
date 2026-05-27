@@ -4,11 +4,15 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
    <title>Vote Calculator</title>
+
    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
 
    <style>
-      /* ================= RESET ================= */
+      /* =========================
+         RESET
+      ========================= */
       * {
          margin: 0;
          padding: 0;
@@ -22,30 +26,36 @@
          display: flex;
          align-items: center;
          justify-content: center;
-         height: 100vh;
+         min-height: 100vh;
+         padding: 20px;
       }
 
-      /* ================= APP ================= */
+      /* =========================
+         APP
+      ========================= */
       .app {
          width: 100%;
          max-width: 800px;
          background: #111827;
-         padding: 40px 50px 40px;
-         border-radius: 0px;
+         padding: 40px 50px;
+         border-radius: 0;
          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-         margin-bottom: 100px;
       }
 
-      /* ================= TITLE ================= */
+      /* =========================
+         TITLE
+      ========================= */
       .title {
          text-align: center;
-         margin-bottom: 25px;
-         font-size: 28px;
-         font-weight: 600;
+         margin-bottom: 30px;
+         font-size: 32px;
+         font-weight: 700;
          letter-spacing: 0.5px;
       }
 
-      /* ================= FORM ================= */
+      /* =========================
+         FORM
+      ========================= */
       .field {
          margin-bottom: 16px;
       }
@@ -53,18 +63,20 @@
       .field label {
          display: block;
          font-size: 13px;
-         margin-bottom: 6px;
+         margin-bottom: 8px;
          color: #9ca3af;
       }
 
       .field input {
          width: 100%;
-         padding: 12px;
-         border-radius: 3px;
+         height: 54px;
+         padding: 0 16px;
          border: 1px solid #1f2937;
+         border-radius: 3px;
          background: #020617;
-         color: #fff;
+         color: #ffffff;
          font-size: 16px;
+         transition: border-color 0.25s ease;
       }
 
       .field input:focus {
@@ -72,22 +84,24 @@
          border-color: #6366f1;
       }
 
-      /* ================= BUTTONS ================= */
+      .field input::placeholder {
+         color: #6b7280;
+      }
+
+      /* =========================
+         BUTTONS
+      ========================= */
       .btn-group {
          display: flex;
          gap: 10px;
-         margin-top: 50px;
+         margin-top: 40px;
       }
 
       .btn {
          border: none;
          border-radius: 3px;
          cursor: pointer;
-         transition: 0.25s;
-      }
-
-      .btn svg {
-         color: #ffffff;
+         transition: background 0.25s ease;
       }
 
       /* Reset Button */
@@ -97,6 +111,7 @@
          align-items: center;
          justify-content: center;
          background: #6366f1;
+         color: #ffffff;
       }
 
       .btn--reset:hover {
@@ -106,119 +121,278 @@
       /* Calculate Button */
       .btn--primary {
          flex: 1;
-         padding: 12px;
+         height: 54px;
          background: #6366f1;
-         color: #fff;
+         color: #ffffff;
          font-size: 16px;
+         font-weight: 500;
       }
 
       .btn--primary:hover {
          background: #4f46e5;
       }
 
-      /* ================= RESULT ================= */
+      /* =========================
+         RESULT
+      ========================= */
       .result {
          margin-top: 20px;
-         padding: 15px;
+         padding: 18px;
          border-radius: 3px;
          background: #020617;
          text-align: center;
-         font-size: 18px;
-         font-weight: 500;
+         font-size: 20px;
+         font-weight: 600;
       }
 
       .error {
-         margin-top: 10px;
+         margin-top: 12px;
          text-align: center;
          color: #f87171;
          font-size: 14px;
       }
+
+      /* =========================
+         RESPONSIVE
+      ========================= */
+      @media (max-width: 767px) {
+
+         .app {
+            padding: 30px 20px;
+         }
+
+         .title {
+            font-size: 26px;
+         }
+
+         .btn-group {
+            margin-top: 30px;
+         }
+
+         .btn--reset {
+            width: 70px;
+         }
+      }
    </style>
 </head>
 
-
 <body>
+
    <div class="app">
-      <div class="title">Deep Work Vote Calculator 🔥</div>
-      <div class="field">
-         <label>Start Time (HH.MM)</label>
-         <input type="text" id="start" placeholder="11.23">
+
+      <!-- Title -->
+      <div class="title">
+         Deep Work Vote Calculator 🔥
       </div>
+
+      <!-- Session Input -->
       <div class="field">
-         <label>End Time (HH.MM)</label>
-         <input type="text" id="end" placeholder="02.14">
+         <label for="session">
+            Time Session
+         </label>
+
+         <input
+            type="text"
+            id="session"
+            placeholder="11.23pm:02.14am"
+         >
       </div>
+
+      <!-- Buttons -->
       <div class="btn-group">
-         <!-- RESET -->
-         <button class="btn btn--reset" id="reset">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-               class="lucide lucide-refresh-cw-icon lucide-refresh-cw">
-               <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-               <path d="M21 3v5h-5" />
-               <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-               <path d="M8 16H3v5" />
+
+         <!-- Reset -->
+         <button
+            type="button"
+            class="btn btn--reset"
+            id="reset"
+            aria-label="Reset Calculator"
+         >
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="20"
+               height="20"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+            >
+               <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+               <path d="M21 3v5h-5"></path>
+               <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+               <path d="M8 16H3v5"></path>
             </svg>
          </button>
-         <!-- CALCULATE -->
-         <button class="btn btn--primary" id="calculate">Calculate</button>
+
+         <!-- Calculate -->
+         <button
+            type="button"
+            class="btn btn--primary"
+            id="calculate"
+         >
+            Calculate
+         </button>
+
       </div>
-      <div class="result" id="result">Vote: 0 + Minute: 0</div>
-      <div class="error" id="error"></div>
+
+      <!-- Result -->
+      <div
+         class="result"
+         id="result"
+      >
+         Vote: 0 + Minute: 0
+      </div>
+
+      <!-- Error -->
+      <div
+         class="error"
+         id="error"
+      ></div>
+
    </div>
 
    <script>
       /**
-       * Convert HH.MM to minutes
+       * Convert 12-hour time into total minutes
+       * Example:
+       * 11.23pm
+       * 02.14am
        */
       function parseTime(value) {
-         const parts = value.split('.');
-         if (parts.length !== 2) return null;
-         const h = parseInt(parts[0], 10);
-         const m = parseInt(parts[1], 10);
-         if (isNaN(h) || isNaN(m) || m >= 60 || h > 12 || h < 0) {
+
+         const regex = /^(\d{1,2})\.(\d{2})(am|pm)$/i;
+
+         const match = value.match(regex);
+
+         if (!match) {
             return null;
          }
-         return (h * 60) + m;
+
+         let hour = parseInt(match[1], 10);
+
+         const minute = parseInt(match[2], 10);
+
+         const meridiem = match[3].toLowerCase();
+
+         if (
+            isNaN(hour) ||
+            isNaN(minute) ||
+            hour < 1 ||
+            hour > 12 ||
+            minute < 0 ||
+            minute > 59
+         ) {
+            return null;
+         }
+
+         /**
+          * Convert to 24-hour format
+          */
+         if (meridiem === 'pm' && hour !== 12) {
+            hour += 12;
+         }
+
+         if (meridiem === 'am' && hour === 12) {
+            hour = 0;
+         }
+
+         return (hour * 60) + minute;
       }
 
       /**
        * Calculate Votes
        */
-      document.getElementById('calculate').addEventListener('click', function () {
-         const startVal = document.getElementById('start').value.trim();
-         const endVal = document.getElementById('end').value.trim();
-         const resultEl = document.getElementById('result');
-         const errorEl = document.getElementById('error');
-         errorEl.textContent = '';
-         const start = parseTime(startVal);
-         const end = parseTime(endVal);
-         if (start === null || end === null) {
-            errorEl.textContent = 'Use format HH.MM (example: 11.23)';
-            return;
-         }
-         let diff = end - start;
-         /**
-          * If end < start → assume same day (AM → PM)
-          */
-         if (diff < 0) {
-            diff += 720; // 12 hours
-         }
-         const votes = Math.floor(diff / 15);
-         const remaining = diff % 15;
-         resultEl.textContent = `Vote: ${votes} + Minute: ${remaining}`;
-      });
+      document
+         .getElementById('calculate')
+         .addEventListener('click', function () {
+
+            const sessionVal = document
+               .getElementById('session')
+               .value
+               .trim();
+
+            const resultEl = document.getElementById('result');
+
+            const errorEl = document.getElementById('error');
+
+            errorEl.textContent = '';
+
+            /**
+             * Example:
+             * 11.23pm:02.14am
+             */
+            const parts = sessionVal.split(':');
+
+            if (parts.length !== 2) {
+
+               errorEl.textContent =
+                  'Use format: 11.23pm:02.14am';
+
+               return;
+            }
+
+            const start = parseTime(parts[0].trim());
+
+            const end = parseTime(parts[1].trim());
+
+            if (start === null || end === null) {
+
+               errorEl.textContent =
+                  'Invalid time format';
+
+               return;
+            }
+
+            let diff = end - start;
+
+            /**
+             * Handle next day
+             */
+            if (diff < 0) {
+               diff += 1440;
+            }
+
+            const votes = Math.floor(diff / 15);
+
+            const remaining = diff % 15;
+
+            resultEl.textContent =
+               `Vote: ${votes} + Minute: ${remaining}`;
+         });
 
       /**
-       * Reset Function
+       * Reset Calculator
        */
-      document.getElementById('reset').addEventListener('click', function () {
-         document.getElementById('start').value = '';
-         document.getElementById('end').value = '';
-         document.getElementById('result').textContent = 'Vote: 0 + Minute: 0';
-         document.getElementById('error').textContent = '';
-      });
+      document
+         .getElementById('reset')
+         .addEventListener('click', function () {
+
+            document.getElementById('session').value = '';
+
+            document.getElementById('result').textContent =
+               'Vote: 0 + Minute: 0';
+
+            document.getElementById('error').textContent = '';
+         });
+
+      /**
+       * Press Enter to Calculate
+       */
+      document
+         .getElementById('session')
+         .addEventListener('keydown', function (event) {
+
+            if (event.key === 'Enter') {
+
+               document
+                  .getElementById('calculate')
+                  .click();
+            }
+         });
    </script>
+
 </body>
 
 </html>
